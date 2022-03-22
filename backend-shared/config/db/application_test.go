@@ -8,8 +8,8 @@ import (
 )
 
 func TestGetApplicationById(t *testing.T) {
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
 		return
@@ -18,7 +18,7 @@ func TestGetApplicationById(t *testing.T) {
 
 	ctx := context.Background()
 
-	_, managedEnvironment, _, gitopsEngineInstance, _, err := createSampleData(t, dbq)
+	_, managedEnvironment, _, gitopsEngineInstance, _, err := CreateSampleData(dbq)
 	if !assert.NoError(t, err) {
 		return
 	}
@@ -59,8 +59,8 @@ func TestGetApplicationById(t *testing.T) {
 }
 
 func TestCreateApplications(t *testing.T) {
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
 		return
@@ -69,7 +69,7 @@ func TestCreateApplications(t *testing.T) {
 
 	ctx := context.Background()
 
-	_, managedEnvironment, _, gitopsEngineInstance, _, err := createSampleData(t, dbq)
+	_, managedEnvironment, _, gitopsEngineInstance, _, err := CreateSampleData(dbq)
 	if !assert.NoError(t, err) {
 		return
 	}
@@ -98,8 +98,8 @@ func TestCreateApplications(t *testing.T) {
 }
 
 func TestDeleteApplicationById(t *testing.T) {
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
 		return
@@ -108,7 +108,7 @@ func TestDeleteApplicationById(t *testing.T) {
 
 	ctx := context.Background()
 
-	_, managedEnvironment, _, gitopsEngineInstance, _, err := createSampleData(t, dbq)
+	_, managedEnvironment, _, gitopsEngineInstance, _, err := CreateSampleData(dbq)
 	if !assert.NoError(t, err) {
 		return
 	}
@@ -137,8 +137,8 @@ func TestDeleteApplicationById(t *testing.T) {
 }
 
 func TestUpdateApplication(t *testing.T) {
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
 		return
@@ -147,7 +147,7 @@ func TestUpdateApplication(t *testing.T) {
 
 	ctx := context.Background()
 
-	_, managedEnvironment, _, gitopsEngineInstance, _, err := createSampleData(t, dbq)
+	_, managedEnvironment, _, gitopsEngineInstance, _, err := CreateSampleData(dbq)
 	if !assert.NoError(t, err) {
 		return
 	}

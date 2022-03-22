@@ -8,8 +8,8 @@ import (
 )
 
 func TestGetGitopsEngineClusterById(t *testing.T) {
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
 		return
@@ -63,8 +63,8 @@ func TestGetGitopsEngineClusterById(t *testing.T) {
 }
 
 func TestCreateGitopsEngineClusterById(t *testing.T) {
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
 		return
@@ -106,8 +106,8 @@ func TestCreateGitopsEngineClusterById(t *testing.T) {
 }
 
 func TestDeleteGitopsEngineClusterById(t *testing.T) {
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
 		return

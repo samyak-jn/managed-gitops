@@ -8,8 +8,8 @@ import (
 )
 
 func TestCreateKubernetesResourceToDBResourceMapping(t *testing.T) {
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
 		return
@@ -43,8 +43,8 @@ func TestCreateKubernetesResourceToDBResourceMapping(t *testing.T) {
 }
 
 func TestGetDBResourceMappingForKubernetesResource(t *testing.T) {
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
 		return
@@ -90,8 +90,8 @@ func TestGetDBResourceMappingForKubernetesResource(t *testing.T) {
 }
 
 func TestDeleteKubernetesResourceToDBResourceMapping(t *testing.T) {
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
 		return

@@ -8,8 +8,8 @@ import (
 )
 
 func TestCreateManagedEnvironment(t *testing.T) {
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
@@ -56,8 +56,8 @@ func TestCreateManagedEnvironment(t *testing.T) {
 
 func TestGetManagedEnvironmentById(t *testing.T) {
 
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
@@ -116,8 +116,8 @@ func TestGetManagedEnvironmentById(t *testing.T) {
 }
 
 func TestDeleteManagedEnvironmentById(t *testing.T) {
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
@@ -170,8 +170,8 @@ func TestDeleteManagedEnvironmentById(t *testing.T) {
 }
 
 func TestListManagedEnvironmentForClusterCredentialsAndOwnerId(t *testing.T) {
-	testSetup(t)
-	defer testTeardown(t)
+	SetupforTestingDB(t)
+	defer TestTeardown(t)
 
 	dbq, err := NewUnsafePostgresDBQueries(true, true)
 	if !assert.NoError(t, err) {
