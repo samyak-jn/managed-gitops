@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    name: managed-gitops-backend
+  name: managed-gitops-backend-metrics-in-gitops
+  namespace: gitops
+spec:
+  endpoints:
+  - bearerTokenSecret:
+      key: ""
+    port: http-metrics
+  - bearerTokenSecret:
+      key: ""
+    port: cr-metrics
+  namespaceSelector:
+    matchNames:
+      - openshift-operators
+  selector:
+    matchLabels:
+      name: managed-gitops-backend
