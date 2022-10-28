@@ -15,12 +15,17 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	managedgitopsv1alpha1 "github.com/redhat-appstudio/managed-gitops/backend-shared/apis/managed-gitops/v1alpha1"
+	sharedutil "github.com/redhat-appstudio/managed-gitops/backend-shared/util"
 )
 
 var _ = Describe("Argo CD Application", func() {
 	Context("Creating GitOpsDeployment should result in an Argo CD Application", func() {
 		It("Argo CD Application should have has prune, allowEmpty and selfHeal enabled", func() {
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 
 			By("create a new GitOpsDeployment CR")
 			gitOpsDeployment := buildGitOpsDeploymentResource("my-gitops-depl-automated",

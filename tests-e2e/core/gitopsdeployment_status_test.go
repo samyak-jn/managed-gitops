@@ -9,6 +9,7 @@ import (
 	managedgitopsv1alpha1 "github.com/redhat-appstudio/managed-gitops/backend-shared/apis/managed-gitops/v1alpha1"
 	"github.com/redhat-appstudio/managed-gitops/backend-shared/config/db"
 	dbutil "github.com/redhat-appstudio/managed-gitops/backend-shared/config/db/util"
+	sharedutil "github.com/redhat-appstudio/managed-gitops/backend-shared/util"
 	"github.com/redhat-appstudio/managed-gitops/tests-e2e/fixture"
 	appFixture "github.com/redhat-appstudio/managed-gitops/tests-e2e/fixture/application"
 	gitopsDeplFixture "github.com/redhat-appstudio/managed-gitops/tests-e2e/fixture/gitopsdeployment"
@@ -20,7 +21,11 @@ import (
 var _ = Describe("GitOpsDeployment Status Tests", func() {
 	Context("Status field of GitOpsDeployment is updated accurately", func() {
 		It("GitOpsDeployment .status.resources field is populated with the right resources", func() {
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 
 			By("create a new GitOpsDeployment resource")
 			gitOpsDeploymentResource := buildGitOpsDeploymentResource("gitops-depl-test-status",
@@ -109,7 +114,11 @@ var _ = Describe("GitOpsDeployment SyncError test", func() {
 
 		It("ensures that GitOpsDeployment .status.sync.syncError field contains the syncError if Application is not synced and error type of the error is SyncError ", func() {
 
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 
 			By("create an invalid GitOpsDeployment application")
 			gitOpsDeploymentResource := managedgitopsv1alpha1.GitOpsDeployment{

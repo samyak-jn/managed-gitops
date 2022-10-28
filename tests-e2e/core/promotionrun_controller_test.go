@@ -12,6 +12,7 @@ import (
 
 	appstudiosharedv1 "github.com/redhat-appstudio/managed-gitops/appstudio-shared/apis/appstudio.redhat.com/v1alpha1"
 	"github.com/redhat-appstudio/managed-gitops/backend-shared/apis/managed-gitops/v1alpha1"
+	sharedutil "github.com/redhat-appstudio/managed-gitops/backend-shared/util"
 	bindingFixture "github.com/redhat-appstudio/managed-gitops/tests-e2e/fixture/binding"
 	promotionRunFixture "github.com/redhat-appstudio/managed-gitops/tests-e2e/fixture/promotionrun"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -26,7 +27,12 @@ var _ = Describe("Application Promotion Run E2E Tests.", func() {
 		var promotionRun appstudiosharedv1.PromotionRun
 
 		BeforeEach(func() {
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
+
 			config, err := fixture.GetE2ETestUserWorkspaceKubeConfig()
 			Expect(err).To(BeNil())
 

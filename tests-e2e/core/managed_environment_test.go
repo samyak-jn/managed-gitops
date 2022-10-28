@@ -35,6 +35,12 @@ var _ = Describe("GitOpsDeployment Managed Environment E2E tests", func() {
 				Skip("Skipping this test until we support running gitops operator with KCP")
 			}
 
+			// Add a check when above is fixed
+			// if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+			// 	Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			// } else {
+			// 	Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			// }
 			Expect(fixture.EnsureCleanSlate()).To(Succeed())
 
 			By("creating the GitOpsDeploymentManagedEnvironment")

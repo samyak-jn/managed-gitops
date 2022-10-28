@@ -7,6 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 	routev1 "github.com/openshift/api/route/v1"
 	managedgitopsv1alpha1 "github.com/redhat-appstudio/managed-gitops/backend-shared/apis/managed-gitops/v1alpha1"
+	sharedutil "github.com/redhat-appstudio/managed-gitops/backend-shared/util"
 	fixture "github.com/redhat-appstudio/managed-gitops/tests-e2e/fixture"
 	gitopsDeplFixture "github.com/redhat-appstudio/managed-gitops/tests-e2e/fixture/gitopsdeployment"
 	"github.com/redhat-appstudio/managed-gitops/tests-e2e/fixture/k8s"
@@ -159,7 +160,11 @@ var _ = Describe("GitOpsDeployment E2E tests", func() {
 
 		It("Should ensure succesful creation of GitOpsDeployment, by creating the GitOpsDeployment", func() {
 
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 			gitOpsDeploymentResource := buildGitOpsDeploymentResource(name,
 				repoURL, "environments/overlays/dev",
 				managedgitopsv1alpha1.GitOpsDeploymentSpecType_Automated)
@@ -224,7 +229,11 @@ var _ = Describe("GitOpsDeployment E2E tests", func() {
 		})
 
 		It("Should ensure synchronicity of create and update of GitOpsDeployment, by ensurng no updates are done in existing deployment, if CR is submitted again without any changes", func() {
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 
 			gitOpsDeploymentResource := buildGitOpsDeploymentResource(name,
 				repoURL, "environments/overlays/dev",
@@ -291,7 +300,11 @@ var _ = Describe("GitOpsDeployment E2E tests", func() {
 		})
 
 		It("Should ensure synchronicity of create and update of GitOpsDeployment, by ensuring GitOpsDeployment should update successfully on changing value(s) within Spec", func() {
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 			gitOpsDeploymentResource := buildGitOpsDeploymentResource(name,
 				repoURL, "environments/overlays/dev",
 				managedgitopsv1alpha1.GitOpsDeploymentSpecType_Automated)
@@ -336,7 +349,11 @@ var _ = Describe("GitOpsDeployment E2E tests", func() {
 
 		It("Checks whether a change in repo URL is reflected within the cluster", func() {
 
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 
 			config, err := fixture.GetE2ETestUserWorkspaceKubeConfig()
 			Expect(err).To(BeNil())
@@ -404,7 +421,11 @@ var _ = Describe("GitOpsDeployment E2E tests", func() {
 
 		It("Checks whether a change in source path is reflected within the cluster", func() {
 
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 			config, err := fixture.GetE2ETestUserWorkspaceKubeConfig()
 			Expect(err).To(BeNil())
 
@@ -497,7 +518,11 @@ var _ = Describe("GitOpsDeployment E2E tests", func() {
 
 		It("Checks whether a change in target revision is reflected within the cluster", func() {
 
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 
 			By("creating a new GitOpsDeployment resource")
 			gitOpsDeploymentResource := buildTargetRevisionGitOpsDeploymentResource("gitops-depl-test",
@@ -562,7 +587,11 @@ var _ = Describe("GitOpsDeployment E2E tests", func() {
 
 		It("Checks whether resources are created in target revision and reflected within the cluster", func() {
 
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 
 			By("creating a new GitOpsDeployment resource")
 			gitOpsDeploymentResource := buildTargetRevisionGitOpsDeploymentResource("gitops-depl-test-status",
@@ -622,7 +651,11 @@ var _ = Describe("GitOpsDeployment E2E tests", func() {
 
 		It("Checks whether deleting the GitOpsDeployment deletes all the resources deployed as part of it", func() {
 
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 
 			By("creating a new GitOpsDeployment resource")
 			gitOpsDeploymentResource := buildGitOpsDeploymentResource("gitops-depl-test-status",
@@ -673,7 +706,11 @@ var _ = Describe("GitOpsDeployment E2E tests", func() {
 
 		It("Checks for failure of deployment when an invalid input is provided", func() {
 
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 
 			By("ensuring GitOpsDeployment Fails to create and deploy application when an invalid field input is passed")
 			gitOpsDeploymentResource := buildGitOpsDeploymentResource("test-should-fail",

@@ -4,6 +4,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	managedgitopsv1alpha1 "github.com/redhat-appstudio/managed-gitops/backend-shared/apis/managed-gitops/v1alpha1"
+	sharedutil "github.com/redhat-appstudio/managed-gitops/backend-shared/util"
 	"github.com/redhat-appstudio/managed-gitops/tests-e2e/fixture"
 	gitopsDeplFixture "github.com/redhat-appstudio/managed-gitops/tests-e2e/fixture/gitopsdeployment"
 	"github.com/redhat-appstudio/managed-gitops/tests-e2e/fixture/k8s"
@@ -16,7 +17,11 @@ var _ = Describe("GitOpsDeployment Condition Tests", func() {
 
 		It("ensures that GitOpsDeployment .status.condition field is populated with the corrrect error when an illegal GitOpsDeployment is created", func() {
 
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 
 			By("create an invalid GitOpsDeployment application")
 			gitOpsDeploymentResource := managedgitopsv1alpha1.GitOpsDeployment{

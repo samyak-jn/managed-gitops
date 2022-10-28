@@ -27,7 +27,11 @@ var _ = Describe("SnapshotEnvironmentBinding Reconciler E2E tests", func() {
 
 		var environment appstudiosharedv1.Environment
 		BeforeEach(func() {
-			Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			if !sharedutil.IsKCPVirtualWorkspaceDisabled() {
+				Expect(fixture.EnsureCleanSlate()).To(Succeed())
+			} else {
+				Expect(fixture.EnsureCleanSlateKCPVirtualWorkspace()).To(Succeed())
+			}
 
 			By("creating the 'staging' Environment")
 			environment = appstudiosharedv1.Environment{
